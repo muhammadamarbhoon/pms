@@ -1,0 +1,233 @@
+openapi: 3.0.3
+info:
+  title: Product Management Service
+  description: Product Management API specifications
+  version: 1.0.0
+servers:
+- url: http://localhost/pms
+tags:
+- name: Product
+paths:
+  /api/v1/products:
+    post:
+      tags:
+      - Product
+      summary: create product
+      operationId: createProduct
+      security:
+      - basicAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+        required: true
+      responses:
+        201:
+          description: Product Created.
+          headers:
+            Location:
+              schema:
+                type: string
+              description: "Location of the created resource i.e. GET /v1/products/{product-id}"
+        400:
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    get:
+      tags:
+      - Product
+      summary: get products
+      operationId: getProducts
+      security:
+      - basicAuth: []
+      responses:
+        200:
+          description: Products Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+        400:
+          description: Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+  /api/v1/products/{product-id}:
+    put:
+      tags:
+      - Product
+      summary: update product
+      operationId: updateProduct
+      security:
+      - basicAuth: []
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductRequest'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    delete:
+      tags:
+      - Product
+      summary: delete product
+      operationId: deleteProduct
+      security:
+      - basicAuth: []
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+    get:
+      tags:
+      - Product
+      summary: get product
+      operationId: getProduct
+      security:
+      - basicAuth: []
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      responses:
+        200:
+          description: Product response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductInfo'
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorInfo'
+components:
+  parameters:
+    ProductId:
+      name: product-id
+      schema:
+        type: string
+        pattern: UUID
+      in: path
+      required: true
+  schemas:
+    ErrorInfo:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ProductRequest:
+      type: object
+      required:
+      - name
+      - company
+      - price
+      - quantity
+      - expiry
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          format: int64
+        company:
+          type: string
+        expiry:
+          type: string
+          format: date-time
+    UpdateProductRequest:
+      type: object
+      properties:
+        price:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          format: int64
+        expiry:
+          type: string
+          format: date-time
+    ProductResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductInfo'
+    ProductInfo:
+      type: object
+      properties:
+        productId:
+          type: string  
+          format: UUID    
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          format: int64
+        company:
+          type: string
+        expiry:
+          type: string
+          format: date-time
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic

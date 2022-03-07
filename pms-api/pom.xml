@@ -41,6 +41,46 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
 	</dependencies>
+	
+		<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator.version}</version>
+				<executions>
+					<execution>
+						<id>ProductManagementService.yaml</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/swagger/ProductManagementService.yaml</inputSpec>
+							<output>${project.build.directory}/generated-sources/swagger</output>
+							<generatorName>spring</generatorName>
+							<configOptions>
+								<dateLibrary>java8</dateLibrary>
+								<useBeanValidation>true</useBeanValidation>
+								<openApiNullable>false</openApiNullable>
+							</configOptions>
+							<generateApis>false</generateApis>
+							<generateApiTests>false</generateApiTests>
+							<generateApiDocumentation>false</generateApiDocumentation>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<generateModels>true</generateModels>
+							<generateModelTests>false</generateModelTests>
+							<generateModelDocumentation>false</generateModelDocumentation>
+							<modelPackage>com.product.pms.data.dto</modelPackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

@@ -112,4 +112,5 @@ public class Product {
         this.updateTime = updateTime;
     }
 
+    public boolean isProductAvailableInInventory() { return this.quantity > 0; }
 }

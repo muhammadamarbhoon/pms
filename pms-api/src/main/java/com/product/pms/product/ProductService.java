@@ -12,6 +12,7 @@ import com.product.pms.model.product.ProductRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +61,7 @@ public class ProductService {
         }
 
         if (request.getPrice() == null && request.getQuantity() == null && request.getExpiry() == null) {
-            log.error("Atleast one parameter should be non-nul to update product with ID {}", productId);
+            log.error("Atleast one parameter should be non-null to update product with ID {}", productId);
             throw new ApplicationException(ApplicationError.BAD_REQUEST);
         }
 
@@ -110,7 +111,11 @@ public class ProductService {
             throw new ApplicationException(ApplicationError.NO_PRODUCTS_FOUND);
         }
 
-        return ProductMapper.toProductResponse(products);
+        List<Product> availableProducts = products.stream()
+                .filter(Product::isProductAvailableInInventory)
+                .collect(Collectors.toList());
+
+        return ProductMapper.toProductResponse(availableProducts);
 
     }
 

@@ -2,7 +2,7 @@
 
 Product Management Service
 
-## Authnetication
+## Authentication
 All endpoints are protected by Basic Authentication.
 
 ## Actions

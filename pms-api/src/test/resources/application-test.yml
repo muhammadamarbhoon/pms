@@ -1,0 +1,4 @@
+pms:
+  db:
+    liquibase:
+      contexts: test

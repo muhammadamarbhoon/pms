@@ -43,11 +43,11 @@ public class ProductController {
 
         String productId = productService.createProduct(productRequest);
 
-        String transactionLocation = "/api/v1/products/" + productId;
+        String productLocation = "/api/v1/products/" + productId;
 
-        log.debug("Location: {}", transactionLocation);
+        log.debug("Location: {}", productLocation);
 
-        return ResponseEntity.status(HttpStatus.CREATED).header("Location", transactionLocation).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).header("Location", productLocation).body(null);
 
     }
 

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: pms
+  datasource:
+    url: ${pms.db.jdbc.url:jdbc:h2:mem:pmsdb;MODE=MSSQLServer;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1;}
+    username: ${pms.db.username:pms-user}
+    password: ${pms.db.password:pms-user}
+    driverClassName: ${pms.db.driverClassName:org.h2.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database: SQL_SERVER
+    database-platform: ${pms.jpa.hibernate.dialect:org.hibernate.dialect.SQLServer2012Dialect}
+    properties:
+      hibernate:
+        show_sql: ${pms.jpa.show_sql:true}
+        format_sql: ${pms.jpa.format_sql:true}
+  liquibase:
+    enabled: ${pms.db.liquibase.enabled:true}
+    contexts: ${pms.db.liquibase.contexts:none}
+    user: ${pms.db.liquibase.user:pms-user}
+    password: ${pms.db.liquibase.password:pms-user}
+  h2:
+    console:
+      enabled: ${pms.db.h2.console.enabled:true}
+server:
+  port: ${pms.server.port:8080}
+  servlet:
+    context-path: ${pms.server.context-path:/pms}
+  compression:
+    enabled: ${pms.server.compression.enabled:true}
+log:
+  path: ${pms.log.path:/app/log}

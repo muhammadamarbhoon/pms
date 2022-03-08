@@ -1,0 +1,5 @@
+databaseChangeLog:
+- include:
+    file: data-test.yaml
+    relativeToChangelogFile: true
+    context: test

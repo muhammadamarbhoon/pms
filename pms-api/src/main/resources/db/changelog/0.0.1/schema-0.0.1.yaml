@@ -1,0 +1,152 @@
+databaseChangeLog:
+- changeSet:
+    id: schema-0.0.1
+    author: pms-user
+    changes:
+    - createTable:
+        tableName: User
+        columns:
+        - column:
+            name: Id
+            type: BIGINT
+            autoIncrement: true
+            constraints:
+              nullable: false
+        - column:
+            name: UserName
+            type: VARCHAR(50)
+            constraints:
+              nullable: false
+        - column:
+            name: Password
+            type: VARCHAR(100)
+            constraints:
+              nullable: false
+    - addPrimaryKey:
+        columnNames: Id
+        constraintName: PK_User
+        tableName: User
+    - addUniqueConstraint:
+        columnNames: UserName
+        constraintName: UK_User_01
+        tableName: User
+    - createTable:
+        tableName: Role
+        columns:
+        - column:
+            name: Id
+            type: BIGINT
+            autoIncrement: true
+            constraints:
+              nullable: false
+        - column:
+            name: Name
+            type: VARCHAR(50)
+            constraints:
+              nullable: false
+    - addPrimaryKey:
+        columnNames: Id
+        constraintName: PK_Role
+        tableName: Role
+    - addUniqueConstraint:
+        columnNames: Name
+        constraintName: UK_Role_01
+        tableName: Role
+    - createTable:
+        tableName: UserRole
+        columns:
+        - column:
+            name: Id
+            type: BIGINT
+            autoIncrement: true
+            constraints:
+              nullable: false
+        - column:
+            name: UserId
+            type: BIGINT
+            autoIncrement: true
+            constraints:
+              nullable: false
+        - column:
+            name: RoleId
+            type: BIGINT
+            autoIncrement: true
+            constraints:
+              nullable: false
+    - addPrimaryKey:
+        columnNames: Id
+        constraintName: PK_UserRole
+        tableName: UserRole
+    - addUniqueConstraint:
+        columnNames: UserId,RoleId
+        constraintName: UK_UserRole_01
+        tableName: UserRole
+    - addForeignKeyConstraint:
+        baseColumnNames: UserId
+        baseTableName: UserRole
+        constraintName: FK_UserRole_User
+        referencedColumnNames: Id
+        referencedTableName: User
+    - addForeignKeyConstraint:
+        baseColumnNames: RoleId
+        baseTableName: UserRole
+        constraintName: FK_UserRole_Role
+        referencedColumnNames: Id
+        referencedTableName: Role
+    - createTable:
+        tableName: Product
+        columns:
+        - column:
+            name: Id
+            type: BIGINT
+            autoIncrement: true
+            constraints:
+              nullable: false
+        - column:
+            name: ProductId
+            type: VARCHAR(36)
+            constraints:
+              nullable: false
+        - column:
+            name: Name
+            type: VARCHAR(50)
+            constraints:
+              nullable: false
+        - column:
+            name: Price
+            type: FLOAT
+            constraints:
+              nullable: false
+        - column:
+            name: Quantity
+            type: BIGINT
+            constraints:
+              nullable: false
+        - column:
+            name: Company
+            type: VARCHAR(50)
+            constraints:
+              nullable: false
+        - column:
+            name: Expiry
+            type: VARCHAR(50)
+            constraints:
+              nullable: false
+        - column:
+            name: CreationTime
+            type: DATETIME
+            constraints:
+              nullable: false
+        - column:
+            name: UpdateTime
+            type: DATETIME
+            constraints:
+              nullable: false
+    - addPrimaryKey:
+        columnNames: Id
+        constraintName: PK_Product
+        tableName: Product
+    - addUniqueConstraint:
+        columnNames: ProductId
+        constraintName: UK_Product_01
+        tableName: Product

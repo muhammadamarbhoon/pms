@@ -1,0 +1,86 @@
+databaseChangeLog:
+- changeSet:
+    id: data-test
+    author: pms-user
+    changes:
+    - insert:
+        tableName: Product
+        columns:
+        - column:
+            name: ProductId
+            value: 5e8bac93-fbfd-46de-85be-58b7ddb30efa
+        - column:
+            name: Name
+            value: Test Product 1
+        - column:
+            name: Price
+            value: 12.9
+        - column:
+            name: Quantity
+            value: 550
+        - column:
+            name: Company
+            value: ABC Pvt Ltd
+        - column:
+            name: Expiry
+            valueComputed: CURRENT_TIMESTAMP
+        - column:
+            name: CreationTime
+            valueComputed: CURRENT_TIMESTAMP
+        - column:
+            name: UpdateTime
+            valueComputed: CURRENT_TIMESTAMP
+    - insert:
+        tableName: Product
+        columns:
+        - column:
+            name: ProductId
+            value: 6fff41ca-a394-4505-8301-91fe9166d144
+        - column:
+            name: Name
+            value: Test Product 2
+        - column:
+            name: Price
+            value: 60
+        - column:
+            name: Quantity
+            value: 90
+        - column:
+            name: Company
+            value: QWERTY Pvt Ltd
+        - column:
+            name: Expiry
+            valueComputed: CURRENT_TIMESTAMP
+        - column:
+            name: CreationTime
+            valueComputed: CURRENT_TIMESTAMP
+        - column:
+            name: UpdateTime
+            valueComputed: CURRENT_TIMESTAMP
+    - insert:
+        tableName: Product
+        columns:
+        - column:
+            name: ProductId
+            value: 349a2640-1496-4488-a46f-b8f459b9035a
+        - column:
+            name: Name
+            value: Test Product 3
+        - column:
+            name: Price
+            value: 100
+        - column:
+            name: Quantity
+            value: 5
+        - column:
+            name: Company
+            value: XYZ Pvt Ltd
+        - column:
+            name: Expiry
+            valueComputed: CURRENT_TIMESTAMP
+        - column:
+            name: CreationTime
+            valueComputed: CURRENT_TIMESTAMP
+        - column:
+            name: UpdateTime
+            valueComputed: CURRENT_TIMESTAMP

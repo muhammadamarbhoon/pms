@@ -1,0 +1,13 @@
+databaseChangeLog:
+- include:
+    file: schema-0.0.1.yaml
+    relativeToChangelogFile: true
+- include:
+    file: data-0.0.1.yaml
+    relativeToChangelogFile: true
+- changeSet:
+    id: 0.0.1
+    author: pms-user
+    changes:
+    - tagDatabase:
+        tag: 0.0.1

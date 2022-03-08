@@ -1,0 +1,53 @@
+databaseChangeLog:
+- changeSet:
+    id: data-0.0.1
+    author: pms-user
+    changes:
+    - insert:
+        tableName: User
+        columns:
+        - column:
+            name: UserName
+            value: admin
+        - column:
+            name: Password
+            value: admin
+    - insert:
+        tableName: User
+        columns:
+        - column:
+            name: UserName
+            value: user
+        - column:
+            name: Password
+            value: user
+    - insert:
+        tableName: Role
+        columns:
+        - column:
+            name: Name
+            value: ROLE_ADMIN
+    - insert:
+        tableName: Role
+        columns:
+        - column:
+            name: Name
+            value: ROLE_USER
+    - insert:
+        tableName: UserRole
+        columns:
+        - column:
+            name: UserId
+            valueComputed: (SELECT Id from User where UserName = 'admin')
+        - column:
+            name: RoleId
+            valueComputed: (SELECT Id from Role where Name = 'ADMIN')
+    - insert:
+        tableName: UserRole
+        columns:
+        - column:
+            name: UserId
+            valueComputed: (SELECT Id from User where UserName = 'user')
+        - column:
+            name: RoleId
+            valueComputed: (SELECT Id from Role where Name = 'USER')

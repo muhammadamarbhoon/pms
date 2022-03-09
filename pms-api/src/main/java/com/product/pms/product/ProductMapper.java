@@ -1,16 +1,21 @@
 package com.product.pms.product;
 
 import com.product.pms.data.dto.ProductInfo;
+import com.product.pms.data.dto.ProductRequest;
 import com.product.pms.data.dto.ProductResponse;
 import com.product.pms.model.product.Product;
 import com.product.pms.util.DateUtils;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class ProductMapper {
+@Mapper(imports= {UUID.class, DateUtils.class, LocalDateTime.class})
+public interface ProductMapper {
 
-    public static ProductResponse toProductResponse(List<Product> products) {
+    default ProductResponse toProductResponse(List<Product> products) {
 
         ProductResponse productResponse = new ProductResponse();
 
@@ -21,24 +26,14 @@ public class ProductMapper {
         return productResponse;
 
     }
+    @Mapping(target = "productId", expression = "java(UUID.fromString(product.getProductId()))")
+    @Mapping(target = "expiry", expression = "java(DateUtils.toOffsetDateTime(product.getExpiry()))")
+    ProductInfo toProductInfo(Product product);
 
-    public static ProductInfo toProductInfo(Product product) {
 
-        ProductInfo productInfo = new ProductInfo();
-
-        productInfo.setProductId(UUID.fromString(product.getProductId()));
-        productInfo.setName(product.getName());
-        productInfo.setCompany(product.getCompany());
-        productInfo.setPrice(product.getPrice());
-        productInfo.setQuantity(product.getQuantity());
-        productInfo.setExpiry(DateUtils.toOffsetDateTime(product.getExpiry()));
-
-        return productInfo;
-
-    }
-
-    private ProductMapper() {
-
-    }
-
+    @Mapping(target = "productId", expression = "java(UUID.randomUUID().toString())")
+    @Mapping(target = "expiry", expression = "java(request.getExpiry().toLocalDateTime())")
+    @Mapping(target = "updateTime", expression = "java(LocalDateTime.now())")
+    @Mapping(target = "creationTime", expression = "java(LocalDateTime.now())")
+    Product mapProductRequestToProductEntity(ProductRequest request);
 }

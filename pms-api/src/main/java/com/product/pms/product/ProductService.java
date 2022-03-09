@@ -26,29 +26,22 @@ public class ProductService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository,
+                          ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     public String createProduct(ProductRequest request) {
 
-        Product product = new Product();
-        product.setProductId(UUID.randomUUID().toString());
-        product.setName(request.getName());
-        product.setCompany(request.getCompany());
-        product.setPrice(request.getPrice());
-        product.setQuantity(request.getQuantity());
-        product.setExpiry(request.getExpiry().toLocalDateTime());
-        product.setCreationTime(LocalDateTime.now());
-        product.setUpdateTime(LocalDateTime.now());
-
-        product = productRepository.save(product);
+        Product product = productRepository
+                .save(productMapper.mapProductRequestToProductEntity(request));
 
         log.debug("Product successfully created");
 
         return product.getProductId();
-
     }
 
     public void updateProduct(String productId, UpdateProductRequest request) {
@@ -65,6 +58,7 @@ public class ProductService {
             throw new ApplicationException(ApplicationError.BAD_REQUEST);
         }
 
+        //todo: Below fields mapping can also be done with Mapstruct implementation in ProductMapper
         if (request.getPrice() != null) {
             product.setPrice(request.getPrice());
 
@@ -84,7 +78,6 @@ public class ProductService {
         productRepository.save(product);
 
         log.debug("Product successfully updated");
-
     }
 
     public void deleteProduct(String productId) {
@@ -99,7 +92,6 @@ public class ProductService {
         productRepository.delete(product);
 
         log.debug("Product successfully deleted");
-
     }
 
     public ProductResponse getProducts() {
@@ -115,8 +107,7 @@ public class ProductService {
                 .filter(Product::isProductAvailableInInventory)
                 .collect(Collectors.toList());
 
-        return ProductMapper.toProductResponse(availableProducts);
-
+        return productMapper.toProductResponse(availableProducts);
     }
 
     public ProductInfo getProduct(String productId) {
@@ -128,8 +119,6 @@ public class ProductService {
             throw new ApplicationException(ApplicationError.PRODUCT_NOT_FOUND);
         }
 
-        return ProductMapper.toProductInfo(product);
-
+        return productMapper.toProductInfo(product);
     }
-
 }
